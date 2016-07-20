@@ -1,0 +1,7 @@
+br\com\leona\Model\Login.class
+br\com\leona\Model\Usuario.class
+br\com\leona\Validation\ValidationUsuario.class
+br\com\leona\Dao\DaoUsuario.class
+br\com\leona\WebApi\ApiUsuario.class
+br\com\leona\Dao\Consultas.class
+br\com\leona\Service\ServiceUsuario.class
