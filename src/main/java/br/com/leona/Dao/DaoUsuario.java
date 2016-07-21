@@ -6,7 +6,7 @@ import org.esfinge.querybuilder.Repository;
 
 public interface DaoUsuario extends Repository<Usuario> {
     
-    Usuario getUsuarioByEmailAndSenha(String email, String senha);
+    List<Usuario> getUsuarioByEmailAndSenha(String email, String senha);
 
     List<Usuario> getUsuarioByEmail(String email);
     

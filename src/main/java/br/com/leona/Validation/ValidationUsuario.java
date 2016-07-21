@@ -19,5 +19,21 @@ public class ValidationUsuario {
             }                
         }        
     }
+
+    public String validarLoginUsuario(Usuario login) {
+        if (login.getEmail().equals("")||login.getSenha().equals("")){
+            return "Email/Senha são Obrigatórios";
+        }else{
+            if (!login.getEmail().contains("@")){
+                return "Campo e-mail está incorreto";
+            }else{
+                if (login.getSenha().length()<6){
+                    return "Senha deve conter mais de 6 caracteres";
+                }else{
+                    return "";
+                }                
+            }                
+        }     
+    }
     
 }

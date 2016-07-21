@@ -33,8 +33,8 @@
                 </div>
 
                 <p class="forgot"><a href="#">Esqueceu a Senha?</a></p>
-
-                <button type="submit" ng-click="logarUsuario()" class="button button-block"/>
+                <p style="color: red" align="center"><b>{{respostaLogin}}</b></p>
+                <button ng-show="botaoLogin" type="submit" ng-click="logarUsuario()" class="button button-block"/>
                 ENTRAR</button>
             </form>
         </div>

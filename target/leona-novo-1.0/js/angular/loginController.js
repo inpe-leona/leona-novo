@@ -3,6 +3,7 @@ angular.module('loginController', [])
         $scope.divcadastro = false;
         $scope.divlogin = true;
         $scope.botaoCadastro = true;
+        $scope.botaoLogin = true;
 
         $scope.login = {
             email:'',
@@ -16,9 +17,16 @@ angular.module('loginController', [])
         };
 
         $scope.logarUsuario = function(){
+            $scope.respostaLogin = "AGUARDE...";
+            $scope.botaoLogin = false;
             loginService.logarUsuario($scope.login)
                 .success(function(retorno){
-                    console.log(retorno);
+                    if (retorno.status==1){
+                        $scope.respostaLogin = retorno.resposta;
+                        $scope.botaoLogin = true;
+                    }else{                        
+                        location.href = 'dashboard.html';
+                    }
                 })
         };
         $scope.mudarAba = function(){

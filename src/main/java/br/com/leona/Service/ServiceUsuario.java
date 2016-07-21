@@ -27,4 +27,13 @@ public class ServiceUsuario implements Serializable{
         }
         
     }
+
+    public Usuario logarUsuario(Usuario login) {
+        List<Usuario> listUsuario = daoUser.getUsuarioByEmailAndSenha(login.getEmail(),login.getSenha());
+        if (listUsuario.isEmpty()){
+            return null;    
+        }else{
+            return listUsuario.get(0);
+        }
+    }
 }

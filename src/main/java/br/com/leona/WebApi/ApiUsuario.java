@@ -1,18 +1,14 @@
 package br.com.leona.WebApi;
 
-import br.com.leona.Model.Login;
 import br.com.leona.Model.Usuario;
 import br.com.leona.Service.ServiceUsuario;
 import br.com.leona.Validation.ValidationUsuario;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.json.JSONObject;
 
 @Path("/usuario")
 public class ApiUsuario {
@@ -30,8 +26,18 @@ public class ApiUsuario {
     @Path("/logarUsuario")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response logarUsuario(String data){     
-        Login login = gs.fromJson(data,Login.class);
-        return Response.status(201).entity(data).build(); 
+        Usuario login = gs.fromJson(data,Usuario.class);
+        String validaLogin = validationUsuario.validarLoginUsuario(login);
+        if (!validaLogin.equals("")){
+            return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\""+validaLogin+"\"}").build(); 
+        }else{
+            Usuario usuario = serviceUsuario.logarUsuario(login);
+            if (usuario==null){
+                return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\"E-mail/Senha não encontrados\"}").build(); 
+            }else{
+                return Response.status(201).entity("{\"status\":\"0\",\"resposta\":\"ok\"}").build(); 
+            }
+        }
     }
     
     @POST
