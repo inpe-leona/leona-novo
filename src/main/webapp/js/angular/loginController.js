@@ -25,7 +25,7 @@ angular.module('loginController', [])
                         $scope.respostaLogin = retorno.resposta;
                         $scope.botaoLogin = true;
                     }else{                        
-                        location.href = 'dashboard.html';
+                        location.href = '/dashboard';
                     }
                 })
         };
