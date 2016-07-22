@@ -4,11 +4,14 @@ import br.com.leona.Model.Usuario;
 import br.com.leona.Service.ServiceUsuario;
 import br.com.leona.Validation.ValidationUsuario;
 import com.google.gson.Gson;
+import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.json.JSONObject;
 
 @Path("/usuario")
 public class ApiUsuario {
@@ -57,4 +60,14 @@ public class ApiUsuario {
             }            
         }        
     }
+    
+    @GET
+    @Path("/buscarUsuarios")
+     @Consumes(MediaType.APPLICATION_JSON)
+    public Response buscarUsuarios(){
+        List<Usuario> listUsuarios = serviceUsuario.buscarUsuarios();          
+        String listU = gs.toJson(listUsuarios);
+        return Response.status(201).entity(listU).build(); 
+    }
+    
 }

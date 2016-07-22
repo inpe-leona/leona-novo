@@ -36,4 +36,8 @@ public class ServiceUsuario implements Serializable{
             return listUsuario.get(0);
         }
     }
+
+    public List<Usuario> buscarUsuarios() {
+        return daoUser.list();
+    }
 }
