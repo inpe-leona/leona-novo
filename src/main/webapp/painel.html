@@ -11,13 +11,14 @@
         <script src="assets/js/lumino.glyphs.js"></script>
         <style>
             #map {
-                height: 500px;
+              height: 500px;
+              width: 100%;
             }
-        </style>
+          </style>
         <!--<base href="/leona-novo/" />-->
     </head>
-    <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <body ng-controller="leonaController">
+        <nav ng-init="mostrarUsuarioLogado()" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -32,7 +33,7 @@
                         <li class="dropdown pull-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <use xlink:href="#stroked-male-user"></use>
-                                </svg> Nome do Usuário <span class="caret"></span></a>
+                                </svg> {{usuarioLogado.nome + ' ' + usuarioLogado.sobrenome}} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">
                                         <svg class="glyph stroked male-user">
@@ -59,7 +60,7 @@
                 </div>
             </form>
             <ul class="nav menu">
-                <li ng-class="{active: activetab == '/leona-novo/dashboard'}"><a href="#!/'">
+                <li ng-class="{active: activetab == '/'}"><a href="#!/'">
                         <svg class="glyph stroked app window with content">
                         <use xlink:href="#stroked-dashboard-dial"></use>
                         </svg>
@@ -74,17 +75,17 @@
                         <use xlink:href="#stroked-location-pin"></use>
                         </svg>
                         Estações</a></li>
-                <li ng-class="{active: activetab == '/dashboard/observacao'}"><a href="/leona-novo/observacao">
+                <li ng-class="{active: activetab == '/observacao'}"><a href="#!/observacao">
                         <svg class="glyph stroked camcorder">
                         <use xlink:href="#stroked-camcorder"></use>
                         </svg>
                         Observações</a></li>
-                <li ng-class="{active: activetab == '/dashboard/imagem'}"><a href="/leona-novo/imagem">
+                <li ng-class="{active: activetab == '/imagem'}"><a href="#!/imagem">
                         <svg class="glyph stroked camera">
                         <use xlink:href="#stroked-camera"></use>
                         </svg>
                         Imagens</a></li>
-                <li ng-class="{active: activetab == '/dashboard/meusdados'}"><a href="/leona-novo/meusdados">
+                <li ng-class="{active: activetab == '/meusdados'}"><a href="#!/meusdados">
                         <svg class="glyph stroked camera">
                         <use xlink:href="#stroked-male-user"></use>
                         </svg>
@@ -92,7 +93,7 @@
                 <li role="presentation" class="divider"></li>
                 <li><a href="login.html">
                         <svg class="glyph stroked cancel">
-                        <use xlink:href="#stroked-male-user"></use>
+                        <use xlink:href="#stroked-cancel"></use>
                         </svg>
                         Sair</a></li>
             </ul>
@@ -106,14 +107,28 @@
 
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+        <script>
+                    var map;
+                    function initMap() {
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            center: {lat: -15.74996257, lng: -47.83447266},
+                            zoom: 4
+                        });
+                    }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyNMbu_ROLyXAQIzqn6iUUybPT-34iXk8&callback=initMap"
+        async defer></script>
         <script src="assets/js/angular/leona.js"></script>    
         <script src="views/usuario/usuarioController.js"></script>    
         <script src="views/usuario/usuarioService.js"></script>    
         <script src="views/dashboard/dashboardController.js"></script>   
         <script src="views/estacao/estacaoController.js"></script>   
+        <script src="views/estacao/estacaoService.js"></script> 
         <script src="views/observacao/observacaoController.js"></script>   
         <script src="views/imagem/imagemController.js"></script>   
         <script src="views/meusdados/meusdadosController.js"></script> 
+        <script src="views/meusdados/meusdadosService.js"></script> 
+        
     </body>
 
 </html>

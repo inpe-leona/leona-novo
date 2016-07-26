@@ -1,6 +1,7 @@
 app.controller('UsuarioCtrl', function ($rootScope, $location, $scope, usuarioService)
 {
     $rootScope.activetab = $location.path();
+    $scope.detalhesUsuario = false;
 
     $scope.buscarUsuarios = function () {
         usuarioService.buscarUsuarios()
@@ -8,11 +9,22 @@ app.controller('UsuarioCtrl', function ($rootScope, $location, $scope, usuarioSe
                     $scope.usuarios = retorno;
                 })
     }
-    
-    $scope.mudarStatusUsuario = function(usuario){
-        console.log('mudou');
+
+    $scope.mudarStatusUsuario = function (usuario) {
+        usuarioService.mudarStatusUsuario(usuario.email)
+                .success(function (retorno) {
+                    if (usuario.status=='Ativo'){
+                        usuario.status = 'Inativo';
+                    }else{
+                        usuario.status = 'Ativo';
+                    }
+                })
     }
-    $scope.detalhesUsuario = function(usuario){
-        console.log('detalhes');
+    $scope.verDetalhesUsuario = function (usuario) {
+        $scope.usuarioDetalhe = usuario;
+        $scope.detalhesUsuario = true;
+    }
+    $scope.fecharDetalhes = function () {
+        $scope.detalhesUsuario = false;
     }
 });

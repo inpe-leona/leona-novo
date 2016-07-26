@@ -35,5 +35,29 @@ public class ValidationUsuario {
             }                
         }     
     }
+
+    public Boolean validarEmail(String email) {
+        if ((email==null)||(email=="")){
+            return false;
+        }else{
+            if (!email.contains("@")){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+
+    public String validarEdicaoUsuario(Usuario usuario) {
+        if ((usuario.getEmail().isEmpty())||(usuario.getNome().isEmpty())||(usuario.getSobrenome().isEmpty())){
+            return "Campos Obrigatórios em Branco!";
+        }else{
+            if (!usuario.getEmail().contains("@")){
+                return "Campo e-mail não deve mudar!";
+            }else{
+                return "";
+            }
+        }
+    }
     
 }

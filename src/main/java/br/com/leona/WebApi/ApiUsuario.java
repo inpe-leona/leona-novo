@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
@@ -35,10 +36,13 @@ public class ApiUsuario {
             return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\""+validaLogin+"\"}").build(); 
         }else{
             Usuario usuario = serviceUsuario.logarUsuario(login);
+            JSONObject objUsuario = new JSONObject(usuario);
+            objUsuario.remove("senha");
+            String userString = gs.toJson(objUsuario);
             if (usuario==null){
                 return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\"E-mail/Senha não encontrados\"}").build(); 
             }else{
-                return Response.status(201).entity("{\"status\":\"0\",\"resposta\":\"ok\"}").build(); 
+                return Response.status(201).entity(userString).build(); 
             }
         }
     }
@@ -68,6 +72,34 @@ public class ApiUsuario {
         List<Usuario> listUsuarios = serviceUsuario.buscarUsuarios();          
         String listU = gs.toJson(listUsuarios);
         return Response.status(201).entity(listU).build(); 
+    }
+    
+    @GET
+    @Path("/mudarStatusUsuario/{email}")
+    public Response mudarStatusUsuario(@PathParam("email") String email){
+        if (!validationUsuario.validarEmail(email)){
+            return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\"E-mail inválido\"}").build(); 
+        }else{
+            serviceUsuario.mudarStatusUsuario(email);
+            return Response.status(201).entity("{\"status\":\"0\",\"resposta\":\"Sucesso\"}").build(); 
+        }        
+    }
+    
+    @POST
+    @Path("/editarMeusDados")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editarMeusDados(String data){
+        Usuario usuario = gs.fromJson(data,Usuario.class);
+        String valida = validationUsuario.validarEdicaoUsuario(usuario);
+        if (!valida.equals("")){
+            return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\""+valida+"\"}").build();     
+        }else{
+            Usuario user = serviceUsuario.editarDadosUsuario(usuario);
+            JSONObject objUsuario = new JSONObject(user);
+            objUsuario.remove("senha");
+            String userString = gs.toJson(objUsuario);
+            return Response.status(201).entity(userString).build(); 
+        }        
     }
     
 }

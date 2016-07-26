@@ -24,7 +24,8 @@ angular.module('loginController', [])
                     if (retorno.status==1){
                         $scope.respostaLogin = retorno.resposta;
                         $scope.botaoLogin = true;
-                    }else{                        
+                    }else{   
+                        localStorage.setItem('usuarioLogado',JSON.stringify(retorno.map));
                         location.href = 'painel.html';
                     }
                 })

@@ -31,3 +31,9 @@ app.config(function ($routeProvider, $locationProvider)
             })
             .otherwise({redirectTo: '/'});
 });
+
+app.controller('leonaController', function($scope){    
+    $scope.mostrarUsuarioLogado = function(){
+        $scope.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    }
+})

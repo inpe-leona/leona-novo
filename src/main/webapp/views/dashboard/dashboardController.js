@@ -1,4 +1,6 @@
-app.controller('DashboardCtrl', function($rootScope, $location)
+app.controller('DashboardCtrl', function($rootScope, $location, $scope)
 {
     $rootScope.activetab = $location.path();
+    
+    
 });
