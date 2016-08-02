@@ -1,5 +1,9 @@
 app.controller('UsuarioCtrl', function ($rootScope, $location, $scope, usuarioService)
 {
+    var usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (usuario.tipo !== 'Administrador'){
+        location.href = 'login.html';
+    }
     $rootScope.activetab = $location.path();
     $scope.detalhesUsuario = false;
 

@@ -32,7 +32,7 @@
                     <input type="password" ng-model="login.senha" placeholder="Sua senha *" autocomplete="off"/>
                 </div>
 
-                <p class="forgot"><a href="#">Esqueceu a Senha?</a></p>
+                <p class="forgot"><a href="#" ng-click="recuperarSenha()">Esqueceu a Senha?</a></p>
                 <p style="color: red" align="center"><b>{{respostaLogin}}</b></p>
                 <button ng-show="botaoLogin" type="submit" ng-click="logarUsuario()" class="button button-block"/>
                 ENTRAR</button>

@@ -6,6 +6,9 @@ angular.module('loginService', [])
             },
             cadastrarUsuario: function(usuario){
                 return $http.post('/leona-novo/rest/usuario/cadastrarUsuario',usuario);
+            },
+            recuperarSenha: function(email){
+                return $http.get('/leona-novo/rest/usuario/recuperarSenha/'+email);
             }
         }
     })

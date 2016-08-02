@@ -5,6 +5,7 @@ import br.com.leona.Service.ServiceUsuario;
 import br.com.leona.Validation.ValidationUsuario;
 import com.google.gson.Gson;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,7 +42,7 @@ public class ApiUsuario {
             String userString = gs.toJson(objUsuario);
             if (usuario==null){
                 return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\"E-mail/Senha não encontrados\"}").build(); 
-            }else{
+            }else{                
                 return Response.status(201).entity(userString).build(); 
             }
         }
@@ -102,4 +103,14 @@ public class ApiUsuario {
         }        
     }
     
+    @GET
+    @Path("/recuperarSenha/{email}")
+    public Response recuperarSenha(@PathParam("email") String email){
+        if (!validationUsuario.validarEmail(email)){
+            return Response.status(201).entity("{\"status\":\"1\",\"resposta\":\"Digite seu e-mail\"}").build(); 
+        }else{
+            String resultado = serviceUsuario.recuperarSenha(email);
+            return Response.status(201).entity("{\"status\":\"0\",\"resposta\":\""+resultado+"\"}").build(); 
+        }        
+    }
 }

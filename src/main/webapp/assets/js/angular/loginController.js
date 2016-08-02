@@ -4,7 +4,8 @@ angular.module('loginController', [])
         $scope.divlogin = true;
         $scope.botaoCadastro = true;
         $scope.botaoLogin = true;
-
+        localStorage.clear();
+        
         $scope.login = {
             email:'',
             senha:''
@@ -45,6 +46,17 @@ angular.module('loginController', [])
                     }else{                        
                         location.href = 'cadastrosucesso.html';
                     }
+                });
+        };
+        $scope.recuperarSenha = function(){
+            if ($scope.login.email===''){
+                $scope.respostaLogin = "Digite seu e-mail";    
+            }else{
+                $scope.respostaLogin = "AGUARDE...";
+                loginService.recuperarSenha($scope.login.email)
+                        .success(function(retorno){
+                            $scope.respostaLogin = retorno.resposta;
                 })
-        }
-    })
+            }
+        };
+    });

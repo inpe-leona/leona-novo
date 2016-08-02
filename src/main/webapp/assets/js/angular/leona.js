@@ -1,4 +1,4 @@
-var app = angular.module('leona', ['ngRoute']);
+var app = angular.module('leona', ['ngRoute','ngMap']);
 
 app.config(function ($routeProvider, $locationProvider)
 {
@@ -32,8 +32,14 @@ app.config(function ($routeProvider, $locationProvider)
             .otherwise({redirectTo: '/'});
 });
 
-app.controller('leonaController', function($scope){    
-    $scope.mostrarUsuarioLogado = function(){
-        $scope.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    }
+app.controller('leonaController', function($scope){ 
+    $scope.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        $scope.itemUsuario = true;
+        if (($scope.usuarioLogado===null)||($scope.usuarioLogado===undefined)){
+            location.href = 'login.html';
+        }else{
+            if ($scope.usuarioLogado.tipo !== 'Administrador'){
+                $scope.itemUsuario = false;
+            }
+        }    
 })

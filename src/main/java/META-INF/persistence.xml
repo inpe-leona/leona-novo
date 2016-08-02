@@ -3,6 +3,7 @@
   <persistence-unit name="USUARIO" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.com.leona.Model.Usuario</class>
+    <class>br.com.leona.Model.Estacao</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/novoleona?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
