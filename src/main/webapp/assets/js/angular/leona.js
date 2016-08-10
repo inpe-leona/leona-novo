@@ -2,7 +2,6 @@ var app = angular.module('leona', ['ngRoute','ngMap']);
 
 app.config(function ($routeProvider, $locationProvider)
 {
-    //$locationProvider.html5Mode(true);
     $locationProvider.hashPrefix(['!']);
     $routeProvider
             .when('/', {
@@ -20,6 +19,10 @@ app.config(function ($routeProvider, $locationProvider)
             .when('/observacao', {
                 templateUrl: 'views/observacao/observacao.html',
                 controller: 'ObservacaoCtrl'
+            })
+            .when('/observacao/:estacao', {
+                templateUrl: 'views/observacao/transmissao.html',
+                controller: 'TransmissaoCtrl'
             })
             .when('/imagem', {
                 templateUrl: 'views/imagem/imagem.html',

@@ -1,3 +1,4 @@
+
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="#!/'"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
@@ -156,14 +157,13 @@
                 <td class="text-center">{{a.horaInicio}}:{{a.minInicio}}</td>        
                 <td class="text-center">{{a.diaFim}}/{{a.mesFim}}/{{a.anoFim}}</td>        
                 <td class="text-center">{{a.horaFim}}:{{a.minFim}}</td>        
-                <td class="text-center"><a href="#"><b>Observar</b></a></td>
+                <td class="text-center"><a href="#!/observacao/{{a.estacao}}" ng-click="iniciarObservacao(a)"><b>Observar</b></a></td>
             </tr>    
         </tbody>
     </table>
 </div>
 <div class="panel panel-default container" ng-show="obsFuturas">
     <h3 align="center">Observações Futuras</h3>
-    {{futuras.length}}
     <table class="table table-bordered">
         <thead>
             <tr>

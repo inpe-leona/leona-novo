@@ -1,0 +1,80 @@
+<div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#!/'"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+            <li>Observação</li>
+            <li class="active">{{estacao.estacao}}</li>
+        </ol>
+    </div>
+    <h1 align='center'>Observação {{estacao.estacao}} <i class="glyphicon glyphicon-plus small"></i></h1>
+    <hr/>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">Observação</div>
+            <div class="panel-body" align="center">
+                <iframe src="http://150.163.55.230:9998" style="width: 690px; height: 480px"></iframe>
+                <br/>    
+                <hr/>
+                <h3>Ações</h3>
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button class="btn btn-info" ng-click="ligarCamera()" type="button">LIGAR</button> 
+                    <button class="btn btn-info" ng-click="desligarCamera()" type="button">DESLIGAR</button>
+                    <button class="btn btn-info" ng-click="resetarCamera()" type="button">RESETAR</button>
+                    <br/><br/>
+                    <p style="color: red"><b>{{respostaAcao}}</b></p>
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <label class="btn btn-secondary">Azimute: </label>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Digite os graus.." ng-model="valorAzimute">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" ng-click="moverAzimute()" type="button">Mover Azimute</button>
+                        </span>
+                    </div>   
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <label class="btn btn-secondary">Elevação </label>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Digite os graus.." ng-model="valorElevacao">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" ng-click="moverElevacao()" type="button">Mover Elevação</button>
+                        </span>
+                    </div>  
+                    <br/>
+                    
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4" ng-init="buscarLogsSalvos()">
+        <div class="panel panel-default">
+            <div class="panel-heading">Log de Ações</div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Ação</th>
+                                <th>Graus</th>
+                                <th>Data/Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="acao in listaAcoes">
+                                <td>{{acao.usuario}}</td>                                    
+                                <td>{{acao.movimento}}</td>
+                                <td>{{acao.graus}}</td>                        
+                                <td>{{acao.datahora}}</td>      
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
