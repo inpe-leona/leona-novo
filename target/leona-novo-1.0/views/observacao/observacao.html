@@ -76,7 +76,7 @@
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
                         <div class="text-muted">Observações</div>
-                        <div class="large">Realizadas ({{realizadas.length}})</div>
+                        <div class="text-justify"><h4>Realizadas ({{realizadas.length}})</h4></div>
                     </div>
                 </div>
             </div></a>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
                         <div class="text-muted">Observações</div>
-                        <div class="large">Futuras ({{futuras.length}})</div>
+                        <div class="text-justify"><h4>Futuras ({{futuras.length}})</h4></div>
                     </div>
                 </div>
             </div></a>
@@ -106,15 +106,15 @@
                     </div>
                     <div class="col-sm-9 col-lg-7 widget-right">
                         <div class="text-muted">Observações</div>
-                        <div class="large">Em Andamento ({{andamento.length}})</div>
+                        <div class="text-justify"><h4>Em Andamento ({{andamento.length}})</h4></div>
                     </div>
                 </div>
             </div></a>
     </div>    
 </div>
-<div class="panel panel-default container" ng-show="obsRealizadas">
+<div class="panel panel-default col-md-12" ng-show="obsRealizadas">
     <h3 align="center">Observações Realizadas</h3>
-    <table class="table table-bordered">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th class="text-center">Estação</th>
@@ -137,9 +137,9 @@
         </tbody>
     </table>
 </div>
-<div class="panel panel-default container" ng-show="obsAndamento">
+<div class="panel panel-default col-md-12" ng-show="obsAndamento">
     <h3 align="center">Observações em Andamento</h3>
-    <table class="table table-bordered">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th class="text-center">Estação</th>
@@ -162,9 +162,9 @@
         </tbody>
     </table>
 </div>
-<div class="panel panel-default container" ng-show="obsFuturas">
+<div class="panel panel-default col-md-12" ng-show="obsFuturas">
     <h3 align="center">Observações Futuras</h3>
-    <table class="table table-bordered">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th class="text-center">Estação</th>
