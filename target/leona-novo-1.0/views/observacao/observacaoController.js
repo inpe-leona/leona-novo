@@ -173,7 +173,10 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
     $scope.listaAcoes = [];
     
     if ($scope.estacao.estacao === 'São José dos Campos') {nomeWS = 'saojose';}
-
+    if ($scope.estacao.estacao === 'Cuiabá'){nomeWS = 'cuiaba';}
+    if ($scope.estacao.estacao === 'Fraiburgo'){nomeWS = 'fraiburgo';}
+    if ($scope.estacao.estacao === 'Eusébio'){nomeWS = 'eusebio';}
+    
     var wsUri = 'ws://' + document.location.host + '/leona-novo/' + nomeWS;
     var webSocket = new WebSocket(wsUri);
     webSocket.binaryType = 'arraybuffer';

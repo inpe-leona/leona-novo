@@ -4,6 +4,7 @@ import br.com.leona.Dao.DaoLogObservacao;
 import br.com.leona.Model.LogObservacao;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.json.Json;
@@ -32,12 +33,17 @@ public class ServiceLogObservacao implements Serializable {
     }
     
     public List<LogObservacao> retornarLogObs(int obs){
-        List<LogObservacao> listObs = daoLogObs.list();        
-        for(LogObservacao log : listObs){
-            if (log.getIdObservacao()!=obs){
-                listObs.remove(log);
-            }
-        }            
-        return listObs;
+        try{
+            List<LogObservacao> listObs = daoLogObs.list();        
+            for(LogObservacao log : listObs){
+                if (log.getIdObservacao()!=obs){
+                    listObs.remove(log);
+                }
+            }            
+            return listObs;
+        }catch(Exception ex){
+            List<LogObservacao> list = new ArrayList<LogObservacao>();
+            return list;
+        }        
     }
 }
