@@ -2,6 +2,14 @@ app.controller('DashboardCtrl', function($rootScope, $location, $scope,estacaoSe
 {
     $rootScope.activetab = $location.path();
     $scope.andamento = [];
+    
+    if (($scope.usuarioLogado.nome==='')||($scope.usuarioLogado.email==='')||($scope.usuarioLogado.sobrenome==='')||
+            ($scope.usuarioLogado.cidade==='')||($scope.usuarioLogado.instituicao==='')||($scope.usuarioLogado.pais==='')){
+        $scope.avisoCadastro = true;
+    }else{
+        $scope.avisoCadastro = false;
+    }
+    
     $scope.buscarEstacoesDashboard = function () {
         estacaoService.buscarEstacoes()
                 .success(function(retorno){

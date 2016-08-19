@@ -257,11 +257,15 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
             $scope.respostaAcao = 'Digite o valor de azimute';
         } else {
             if (isNumber($scope.valorAzimute)){
-                preencherObjeto($scope.valorAzimute, 'Azimute');
-                acao = JSON.stringify(acao);
-                webSocket.send(acao);
-                preencherLista(JSON.parse(acao));
-                $scope.respostaAcao = '';
+                if (parseInt($scope.valorAzimute)>350){
+                    $scope.respostaAcao = 'Valor Azimute excedeu o limite!';
+                }else{
+                    preencherObjeto($scope.valorAzimute, 'Azimute');
+                    acao = JSON.stringify(acao);
+                    webSocket.send(acao);
+                    preencherLista(JSON.parse(acao));
+                    $scope.respostaAcao = '';
+                }
             }else{
                 $scope.respostaAcao = 'Digite apenas números';    
             }            
@@ -273,11 +277,15 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
             $scope.respostaAcao = 'Digite o valor de elevação';
         } else {
             if (isNumber($scope.valorElevacao)){
-                preencherObjeto($scope.valorElevacao, 'Elevação');
-                acao = JSON.stringify(acao);
-                webSocket.send(acao);
-                preencherLista(JSON.parse(acao));
-                $scope.respostaAcao = '';
+                if ((parseInt($scope.valorElevacao)<-35)||(parseInt($scope.valorElevacao)>35)){
+                    $scope.respostaAcao = 'Valor Elevação excedeu o limite';
+                }else{                    
+                    preencherObjeto($scope.valorElevacao, 'Elevação');
+                    acao = JSON.stringify(acao);
+                    webSocket.send(acao);
+                    preencherLista(JSON.parse(acao));
+                    $scope.respostaAcao = '';
+                }
             }else{
                 $scope.respostaAcao = 'Digite apenas números';    
             }               
