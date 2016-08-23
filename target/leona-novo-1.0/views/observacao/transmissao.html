@@ -7,16 +7,25 @@
     </div>
     <h1 align='center'>Observação {{estacao.estacao}} <i class="glyphicon glyphicon-plus small"></i></h1>
     <hr/>
+    {{ipWS}}
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">Observação</div>
             <div class="panel-body" align="center">
-                <iframe src="http://150.163.55.230:9998" style="width: 690px; height: 480px"></iframe>
+                <iframe ng-show="sjc" src="http://150.163.55.230:9998" style="width: 690px; height: 480px"></iframe>
+                <iframe ng-show="cuiaba" src="http://150.163.156.118:9998" style="width: 690px; height: 480px"></iframe>
+                <iframe ng-show="eusebio" src="http://150.163.43.16:9998" style="width: 690px; height: 480px"></iframe>
+                <iframe ng-show="fraiburgo" src="http://150.163.55.230:9998" style="width: 690px; height: 480px"></iframe>
                 <br/>    
                 <hr/>
                 <h3>Ações</h3>
+                <p style="color: red" align="center"><b>{{respostaAcoes}}</b></p>
+                <div class="row" ng-show="divBarra">
+                    <span>{{progress_bar()}}</span>
+                    <strong>{{progress}}%</strong>
+                  </div>
                 <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-6" ng-show="acoes">
                     <button class="btn btn-info" ng-click="ligarCamera()" type="button">LIGAR</button> 
                     <button class="btn btn-info" ng-click="desligarCamera()" type="button">DESLIGAR</button>
                     <button class="btn btn-info" ng-click="resetarCamera()" type="button">RESETAR</button>

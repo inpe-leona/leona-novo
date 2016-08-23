@@ -158,25 +158,42 @@ app.controller('ObservacaoCtrl', function ($rootScope, $location, $scope, estaca
     }
 });
 
-app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observacaoService) {
+app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, observacaoService,$timeout) {
     $rootScope.activetab = $location.path();
     $scope.estacao = JSON.parse(localStorage.getItem('estacaoObs'));
+    $scope.acoes = true;
+    $scope.respostaAcoes = '';
+    $scope.contagem = '';
+    $scope.divBarra = false;
     var nomeWS = '';
+    $scope.ipWS = '';
     var acao = {
         graus: '',
         movimento: '',
         usuario: '',
         datahora: '',
-        emailusuario:'',
+        emailusuario: '',
         idobservacao: ''
     };
     $scope.listaAcoes = [];
-    
-    if ($scope.estacao.estacao === 'São José dos Campos') {nomeWS = 'saojose';}
-    if ($scope.estacao.estacao === 'Cuiabá'){nomeWS = 'cuiaba';}
-    if ($scope.estacao.estacao === 'Fraiburgo'){nomeWS = 'fraiburgo';}
-    if ($scope.estacao.estacao === 'Eusébio'){nomeWS = 'eusebio';}
-    
+
+    if ($scope.estacao.estacao === 'São José dos Campos') {
+        nomeWS = 'saojose';
+        $scope.sjc = true;$scope.cuiaba=false;$scope.eusebio=false;$scope.fraiburgo=false;
+    }
+    if ($scope.estacao.estacao === 'Cuiabá') {
+        nomeWS = 'cuiaba';
+        $scope.sjc = false;$scope.cuiaba=true;$scope.eusebio=false;$scope.fraiburgo=false;
+    }
+    if ($scope.estacao.estacao === 'Fraiburgo') {
+        nomeWS = 'fraiburgo';
+        $scope.sjc = false;$scope.cuiaba=false;$scope.eusebio=false;$scope.fraiburgo=true;
+    }
+    if ($scope.estacao.estacao === 'Eusébio') {
+        nomeWS = 'eusebio';
+        $scope.sjc = false;$scope.cuiaba=false;$scope.eusebio=true;$scope.fraiburgo=false;
+    }
+
     var wsUri = 'ws://' + document.location.host + '/leona-novo/' + nomeWS;
     var webSocket = new WebSocket(wsUri);
     webSocket.binaryType = 'arraybuffer';
@@ -209,43 +226,111 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
         acao.graus = graus;
         acao.movimento = mov;
         acao.datahora = dia + '/' + mes + '/' + data.getFullYear() + ' ' + hora + ':' + min;
-        acao.usuario = JSON.parse(localStorage.getItem('usuarioLogado')).nome + ' ' + JSON.parse(localStorage.getItem('usuarioLogado')).sobrenome;        
+        acao.usuario = JSON.parse(localStorage.getItem('usuarioLogado')).nome + ' ' + JSON.parse(localStorage.getItem('usuarioLogado')).sobrenome;
         acao.idobservacao = $scope.estacao.id;
         acao.emailusuario = JSON.parse(localStorage.getItem('usuarioLogado')).email;
-    };
-    
-    $scope.buscarLogsSalvos = function(){
+    }
+    ;
+
+    $scope.buscarLogsSalvos = function () {
         observacaoService.buscarLogsSalvos($scope.estacao.id)
-                .success(function(retorno){
+                .success(function (retorno) {
                     $scope.listaAcoes = retorno.reverse();
-        });
+                });
     };
-    
-    function preencherLista(acao){
+
+    function preencherLista(acao) {
         $scope.listaAcoes.reverse();
         $scope.listaAcoes.push(acao);
         $scope.listaAcoes.reverse();
         $scope.$digest();
     }
+
+
+    $scope.progress = 0;
+    $scope.isRunning = false;
+    $scope.tempo;
+
+    var DOTS = '....................................................................................................';
+    var PIPES = '||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||';
+    var isRunning = true;
+
+    $scope.progress_bar = function () {
+        return '[' + PIPES.substring(0, $scope.progress) + DOTS.substring(0, 100 - $scope.progress) + ']'
+    }
+
+    function tick() {
+        if ($scope.progress < 100) {
+            $scope.progress++;
+            $timeout(tick, $scope.tempo);
+            $scope.isRunning = true;
+        } else {
+            $scope.isRunning = false;
+        }
+    }
+
+
+
     $scope.ligarCamera = function () {
+        $scope.divBarra = true;
+        $scope.acoes = false;
+        $scope.respostaAcoes = "LIGANDO CÂMERA...";
         preencherObjeto('', 'Ligar');
         acao = JSON.stringify(acao);
         webSocket.send(acao);
-        preencherLista(JSON.parse(acao));
+        preencherObjeto('0', 'Azimute');
+        acao = JSON.stringify(acao);
+        webSocket.send(acao);
+        preencherObjeto('0', 'Elevação');
+        acao = JSON.stringify(acao);
+        webSocket.send(acao);
+        $scope.progress = 0;
+        $scope.tempo = 100;
+        $timeout(tick, 0);
+        setTimeout(function () {
+            $scope.acoes = true;
+            $scope.respostaAcoes = '';
+            preencherObjeto('', 'Ligar');
+            acao = JSON.stringify(acao);
+            preencherLista(JSON.parse(acao));
+            $scope.divBarra = false;
+        }, 10000);
     };
 
     $scope.desligarCamera = function () {
+        $scope.divBarra = true;
+        $scope.acoes = false;
+        $scope.respostaAcoes = "DESLIGANDO CÂMERA...";
         preencherObjeto('', 'Desligar');
         acao = JSON.stringify(acao);
         webSocket.send(acao);
-        preencherLista(JSON.parse(acao));
+        $scope.progress = 0;
+        $scope.tempo = 100;
+        $timeout(tick, 0);
+        setTimeout(function () {
+            $scope.acoes = true;
+            $scope.respostaAcoes = '';
+            preencherLista(JSON.parse(acao));
+             $scope.divBarra = false;
+        }, 10000);
     };
 
     $scope.resetarCamera = function () {
+        $scope.divBarra = true;
+        $scope.acoes = false;
+        $scope.respostaAcoes = "RESETANDO...";
         preencherObjeto('', 'Resetar');
         acao = JSON.stringify(acao);
         webSocket.send(acao);
-        preencherLista(JSON.parse(acao));
+        $scope.progress = 0;
+        $scope.tempo = 200;
+        $timeout(tick, 0);        
+        setTimeout(function () {
+            $scope.acoes = true;
+            $scope.respostaAcoes = '';
+            preencherLista(JSON.parse(acao));
+            $scope.divBarra = false;
+        }, 20000);
     };
 
     function isNumber(n) {
@@ -256,19 +341,30 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
         if (($scope.valorAzimute === undefined) || ($scope.valorAzimute === null) || ($scope.valorAzimute === '')) {
             $scope.respostaAcao = 'Digite o valor de azimute';
         } else {
-            if (isNumber($scope.valorAzimute)){
-                if (parseInt($scope.valorAzimute)>350){
+            if (isNumber($scope.valorAzimute)) {
+                if (parseInt($scope.valorAzimute) > 350) {
                     $scope.respostaAcao = 'Valor Azimute excedeu o limite!';
-                }else{
+                } else {
+                    $scope.divBarra = true;
+                    $scope.acoes = false;
+                    $scope.respostaAcoes = "MOVENDO AZIMUTE...";
                     preencherObjeto($scope.valorAzimute, 'Azimute');
                     acao = JSON.stringify(acao);
                     webSocket.send(acao);
-                    preencherLista(JSON.parse(acao));
-                    $scope.respostaAcao = '';
+                    $scope.progress = 0;
+                    $scope.tempo = 200;
+                    $timeout(tick, 0);                       
+                    setTimeout(function () {
+                        $scope.acoes = true;
+                        $scope.respostaAcoes = '';
+                        preencherLista(JSON.parse(acao));
+                        $scope.respostaAcao = '';
+                        $scope.divBarra = false;
+                    }, 20000);
                 }
-            }else{
-                $scope.respostaAcao = 'Digite apenas números';    
-            }            
+            } else {
+                $scope.respostaAcao = 'Digite apenas números';
+            }
         }
     };
 
@@ -276,25 +372,36 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope,observ
         if (($scope.valorElevacao === undefined) || ($scope.valorElevacao === null) || ($scope.valorElevacao === '')) {
             $scope.respostaAcao = 'Digite o valor de elevação';
         } else {
-            if (isNumber($scope.valorElevacao)){
-                if ((parseInt($scope.valorElevacao)<-35)||(parseInt($scope.valorElevacao)>35)){
+            if (isNumber($scope.valorElevacao)) {
+                if ((parseInt($scope.valorElevacao) < -35) || (parseInt($scope.valorElevacao) > 35)) {
                     $scope.respostaAcao = 'Valor Elevação excedeu o limite';
-                }else{                    
-                    preencherObjeto($scope.valorElevacao, 'Elevação');
+                } else {
+                    $scope.acoes = false;
+                    $scope.respostaAcoes = "MOVENDO ELEVAÇÃO...";
+                    $scope.valorElevacao = parseInt($scope.valorElevacao) * -1;
+                    preencherObjeto("" + $scope.valorElevacao, 'Elevação');
                     acao = JSON.stringify(acao);
                     webSocket.send(acao);
-                    preencherLista(JSON.parse(acao));
-                    $scope.respostaAcao = '';
+                    $scope.progress = 0;
+                    $scope.tempo = 200;
+                    $timeout(tick, 0);   
+                    setTimeout(function () {
+                        $scope.acoes = true;
+                        $scope.respostaAcoes = '';
+                        preencherLista(JSON.parse(acao));
+                        $scope.respostaAcao = '';
+                        $scope.divBarra = false;
+                    }, 20000);
                 }
-            }else{
-                $scope.respostaAcao = 'Digite apenas números';    
-            }               
+            } else {
+                $scope.respostaAcao = 'Digite apenas números';
+            }
         }
     };
 
     function onMessage(evt) {
         console.log('recebido: ' + evt.data);
-        preencherLista(JSON.parse(evt.data));        
+        preencherLista(JSON.parse(evt.data));
     }
 
     function onError(evt) {

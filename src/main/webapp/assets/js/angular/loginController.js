@@ -30,6 +30,9 @@ angular.module('loginController', [])
                         location.href = 'painel.html';
                     }
                 })
+                .error(function(){
+                    $scope.respostaLogin = "Usuario/Senha inválidos";    
+                })
         };
         $scope.mudarAba = function(){
             $scope.divcadastro = !$scope.divcadastro;
