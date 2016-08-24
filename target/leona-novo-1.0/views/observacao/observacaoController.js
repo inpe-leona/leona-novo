@@ -158,7 +158,7 @@ app.controller('ObservacaoCtrl', function ($rootScope, $location, $scope, estaca
     }
 });
 
-app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, observacaoService,$timeout) {
+app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, observacaoService, $timeout) {
     $rootScope.activetab = $location.path();
     $scope.estacao = JSON.parse(localStorage.getItem('estacaoObs'));
     $scope.acoes = true;
@@ -179,19 +179,31 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
 
     if ($scope.estacao.estacao === 'São José dos Campos') {
         nomeWS = 'saojose';
-        $scope.sjc = true;$scope.cuiaba=false;$scope.eusebio=false;$scope.fraiburgo=false;
+        $scope.sjc = true;
+        $scope.cuiaba = false;
+        $scope.eusebio = false;
+        $scope.fraiburgo = false;
     }
     if ($scope.estacao.estacao === 'Cuiabá') {
         nomeWS = 'cuiaba';
-        $scope.sjc = false;$scope.cuiaba=true;$scope.eusebio=false;$scope.fraiburgo=false;
+        $scope.sjc = false;
+        $scope.cuiaba = true;
+        $scope.eusebio = false;
+        $scope.fraiburgo = false;
     }
     if ($scope.estacao.estacao === 'Fraiburgo') {
         nomeWS = 'fraiburgo';
-        $scope.sjc = false;$scope.cuiaba=false;$scope.eusebio=false;$scope.fraiburgo=true;
+        $scope.sjc = false;
+        $scope.cuiaba = false;
+        $scope.eusebio = false;
+        $scope.fraiburgo = true;
     }
     if ($scope.estacao.estacao === 'Eusébio') {
         nomeWS = 'eusebio';
-        $scope.sjc = false;$scope.cuiaba=false;$scope.eusebio=true;$scope.fraiburgo=false;
+        $scope.sjc = false;
+        $scope.cuiaba = false;
+        $scope.eusebio = true;
+        $scope.fraiburgo = false;
     }
 
     var wsUri = 'ws://' + document.location.host + '/leona-novo/' + nomeWS;
@@ -311,7 +323,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
             $scope.acoes = true;
             $scope.respostaAcoes = '';
             preencherLista(JSON.parse(acao));
-             $scope.divBarra = false;
+            $scope.divBarra = false;
         }, 10000);
     };
 
@@ -323,14 +335,21 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
         acao = JSON.stringify(acao);
         webSocket.send(acao);
         $scope.progress = 0;
-        $scope.tempo = 200;
-        $timeout(tick, 0);        
+        $scope.tempo = 300;
+        $timeout(tick, 0);
         setTimeout(function () {
-            $scope.acoes = true;
-            $scope.respostaAcoes = '';
-            preencherLista(JSON.parse(acao));
-            $scope.divBarra = false;
-        }, 20000);
+            preencherObjeto('0', 'Elevação');
+            acao = JSON.stringify(acao);
+            webSocket.send(acao);
+            setTimeout(function () {
+                $scope.acoes = true;
+                $scope.respostaAcoes = '';
+                preencherObjeto('', 'Resetar');
+                acao = JSON.stringify(acao);
+                preencherLista(JSON.parse(acao));
+                $scope.divBarra = false;
+            }, 15000);
+        }, 15000);
     };
 
     function isNumber(n) {
@@ -353,7 +372,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
                     webSocket.send(acao);
                     $scope.progress = 0;
                     $scope.tempo = 200;
-                    $timeout(tick, 0);                       
+                    $timeout(tick, 0);
                     setTimeout(function () {
                         $scope.acoes = true;
                         $scope.respostaAcoes = '';
@@ -376,6 +395,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
                 if ((parseInt($scope.valorElevacao) < -35) || (parseInt($scope.valorElevacao) > 35)) {
                     $scope.respostaAcao = 'Valor Elevação excedeu o limite';
                 } else {
+                    $scope.divBarra = true;
                     $scope.acoes = false;
                     $scope.respostaAcoes = "MOVENDO ELEVAÇÃO...";
                     $scope.valorElevacao = parseInt($scope.valorElevacao) * -1;
@@ -384,10 +404,13 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
                     webSocket.send(acao);
                     $scope.progress = 0;
                     $scope.tempo = 200;
-                    $timeout(tick, 0);   
+                    $timeout(tick, 0);
                     setTimeout(function () {
                         $scope.acoes = true;
                         $scope.respostaAcoes = '';
+                        $scope.valorElevacao = parseInt($scope.valorElevacao) * -1;
+                        preencherObjeto("" + $scope.valorElevacao, 'Elevação');
+                        acao = JSON.stringify(acao);
                         preencherLista(JSON.parse(acao));
                         $scope.respostaAcao = '';
                         $scope.divBarra = false;

@@ -2,8 +2,12 @@ br\com\leona\Model\Usuario.class
 br\com\leona\Service\ServiceEstacao.class
 br\com\leona\Dao\DaoLogObservacao.class
 br\com\leona\Service\ServiceUsuario.class
+br\com\leona\WebServices\EusebioDecoder.class
+br\com\leona\WebServices\FraiburgoEncoder.class
 br\com\leona\Service\ServiceObservacao.class
+br\com\leona\WebServices\CuiabaWS.class
 br\com\leona\WebServices\Objeto.class
+br\com\leona\WebServices\EusebioWS.class
 br\com\leona\Validation\ValidationUsuario.class
 br\com\leona\WebServices\SaoJoseWS.class
 br\com\leona\WebServices\SaoJoseDecoder.class
@@ -20,7 +24,12 @@ br\com\leona\WebApi\ApiObservacao.class
 br\com\leona\WebServices\SaoJoseEncoder.class
 br\com\leona\Model\LogObservacao.class
 br\com\leona\WebApi\ApiUsuario.class
+br\com\leona\WebServices\FraiburgoDecoder.class
 br\com\leona\Dao\DaoEstacao.class
+br\com\leona\WebServices\EusebioEncoder.class
+br\com\leona\WebServices\CuiabaEncoder.class
+br\com\leona\WebServices\FraiburgoWS.class
 br\com\leona\Validation\ValidationObservacao.class
+br\com\leona\WebServices\CuiabaDecoder.class
 br\com\leona\Dao\DaoUsuario.class
 br\com\leona\Dao\Consultas.class

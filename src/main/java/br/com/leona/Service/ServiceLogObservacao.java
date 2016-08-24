@@ -22,9 +22,10 @@ public class ServiceLogObservacao implements Serializable {
     
     public void salvarAcaoObs(String data) {
         JsonObject jsonObject = Json.createReader(new StringReader(data)).readObject();
+        int grau = (Integer.parseInt(jsonObject.getString("graus")))*-1;
         log.setDataHora(jsonObject.getString("datahora"));
         log.setEmailUsuario(jsonObject.getString("emailusuario"));
-        log.setGraus(jsonObject.getString("graus"));
+        log.setGraus(""+grau);
         log.setIdObservacao(jsonObject.getInt("idobservacao"));
         log.setMovimento(jsonObject.getString("movimento"));     
         log.setUsuario(jsonObject.getString("usuario"));
