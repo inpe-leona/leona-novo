@@ -335,21 +335,14 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
         acao = JSON.stringify(acao);
         webSocket.send(acao);
         $scope.progress = 0;
-        $scope.tempo = 300;
+        $scope.tempo = 500;
         $timeout(tick, 0);
         setTimeout(function () {
-            preencherObjeto('0', 'Elevação');
-            acao = JSON.stringify(acao);
-            webSocket.send(acao);
-            setTimeout(function () {
-                $scope.acoes = true;
-                $scope.respostaAcoes = '';
-                preencherObjeto('', 'Resetar');
-                acao = JSON.stringify(acao);
-                preencherLista(JSON.parse(acao));
-                $scope.divBarra = false;
-            }, 15000);
-        }, 15000);
+            $scope.acoes = true;
+            $scope.respostaAcoes = '';
+            preencherLista(JSON.parse(acao));
+            $scope.divBarra = false;
+        }, 50000);
     };
 
     function isNumber(n) {
@@ -361,7 +354,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
             $scope.respostaAcao = 'Digite o valor de azimute';
         } else {
             if (isNumber($scope.valorAzimute)) {
-                if (parseInt($scope.valorAzimute) > 350) {
+                if (parseInt($scope.valorAzimute) >= 350) {
                     $scope.respostaAcao = 'Valor Azimute excedeu o limite!';
                 } else {
                     $scope.divBarra = true;
@@ -371,7 +364,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
                     acao = JSON.stringify(acao);
                     webSocket.send(acao);
                     $scope.progress = 0;
-                    $scope.tempo = 200;
+                    $scope.tempo = 250;
                     $timeout(tick, 0);
                     setTimeout(function () {
                         $scope.acoes = true;
@@ -379,7 +372,7 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
                         preencherLista(JSON.parse(acao));
                         $scope.respostaAcao = '';
                         $scope.divBarra = false;
-                    }, 20000);
+                    }, 25000);
                 }
             } else {
                 $scope.respostaAcao = 'Digite apenas números';
@@ -392,29 +385,25 @@ app.controller('TransmissaoCtrl', function ($rootScope, $location, $scope, obser
             $scope.respostaAcao = 'Digite o valor de elevação';
         } else {
             if (isNumber($scope.valorElevacao)) {
-                if ((parseInt($scope.valorElevacao) < -35) || (parseInt($scope.valorElevacao) > 35)) {
+                if ((parseInt($scope.valorElevacao) <= -35) || (parseInt($scope.valorElevacao) >= 35)) {
                     $scope.respostaAcao = 'Valor Elevação excedeu o limite';
                 } else {
                     $scope.divBarra = true;
                     $scope.acoes = false;
                     $scope.respostaAcoes = "MOVENDO ELEVAÇÃO...";
-                    $scope.valorElevacao = parseInt($scope.valorElevacao) * -1;
                     preencherObjeto("" + $scope.valorElevacao, 'Elevação');
                     acao = JSON.stringify(acao);
                     webSocket.send(acao);
                     $scope.progress = 0;
-                    $scope.tempo = 200;
+                    $scope.tempo = 250;
                     $timeout(tick, 0);
                     setTimeout(function () {
                         $scope.acoes = true;
                         $scope.respostaAcoes = '';
-                        $scope.valorElevacao = parseInt($scope.valorElevacao) * -1;
-                        preencherObjeto("" + $scope.valorElevacao, 'Elevação');
-                        acao = JSON.stringify(acao);
                         preencherLista(JSON.parse(acao));
                         $scope.respostaAcao = '';
                         $scope.divBarra = false;
-                    }, 20000);
+                    }, 25000);
                 }
             } else {
                 $scope.respostaAcao = 'Digite apenas números';
